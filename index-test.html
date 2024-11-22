@@ -12,9 +12,6 @@
   <script>
     // Listen for messages from the parent
     window.addEventListener("message", (event) => {
-      if (event.origin !== window.location.origin) {
-        return; // Only process messages from the same origin
-      }
       const receivedMessage = event.data;
       document.getElementById("message").innerText = `Received from parent: ${receivedMessage}`;
 
@@ -22,7 +19,7 @@
       const responseMessage = `Response from iframe: ${receivedMessage}`;
       
       // Send response back using postMessage
-      window.parent.postMessage(responseMessage, event.origin);
+      window.parent.postMessage(responseMessage, '*');
     });
   </script>
 </body>

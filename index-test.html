@@ -3,21 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Iframe Content</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-    }
-    #message {
-      font-size: 1.2rem;
-      color: blue;
-      margin-top: 20px;
-    }
-  </style>
+  <title>Iframe Test</title>
 </head>
 <body>
   <h1>Iframe Content</h1>
-  <div id="message">No message received yet.</div>
+  <div id="message">Waiting for message...</div>
 
   <script>
     // Listen for messages from the parent
@@ -31,13 +21,8 @@
       // Send a response back to the parent
       const responseMessage = `Response from iframe: ${receivedMessage}`;
       
-      // Check if we are in a WebView (iOS) and use webkit to send a message to the parent app
-      if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.postMessage) {
-        window.webkit.messageHandlers.postMessage.postMessage(responseMessage);
-      } else {
-        // Send a response using postMessage to the parent (for regular browser or WebView with postMessage support)
-        window.parent.postMessage(responseMessage, event.origin);
-      }
+      // Send response back using postMessage
+      window.parent.postMessage(responseMessage, event.origin);
     });
   </script>
 </body>

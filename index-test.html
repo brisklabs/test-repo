@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iframe Content</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    #message {
+      font-size: 1.2rem;
+      color: blue;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Iframe Content</h1>
+  <div id="message">No message received yet.</div>
+
+  <script>
+    // Listen for messages from the parent
+    window.addEventListener("message", (event) => {
+      if (event.origin !== window.location.origin) {
+        return; // Only process messages from the same origin
+      }
+      const receivedMessage = event.data;
+      document.getElementById("message").innerText = `Received from parent: ${receivedMessage}`;
+
+      // Send a response back to the parent
+      const responseMessage = `Response from iframe: ${receivedMessage}`;
+      
+      // Check if we are in a WebView (iOS) and use webkit to send a message to the parent app
+      if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.postMessage) {
+        window.webkit.messageHandlers.postMessage.postMessage(responseMessage);
+      } else {
+        // Send a response using postMessage to the parent (for regular browser or WebView with postMessage support)
+        window.parent.postMessage(responseMessage, event.origin);
+      }
+    });
+  </script>
+</body>
+</html>

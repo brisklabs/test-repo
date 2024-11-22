@@ -19,7 +19,7 @@
       const responseMessage = `Response from iframe: ${receivedMessage}`;
       
       // Send response back using postMessage
-      window.parent.postMessage(responseMessage, '*');
+       window.webkit.messageHandlers.sendingMessage.postMessage(responseMessage);
     });
   </script>
 </body>
